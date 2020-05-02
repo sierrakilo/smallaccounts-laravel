@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NominalAccount extends Model
+class NominalTransaction extends Model
 {
     public function getAmountAttribute($value)
     {
@@ -15,5 +15,4 @@ class NominalAccount extends Model
     {
         $this->attributes['amount'] = $value * 100;
     }
-
 }

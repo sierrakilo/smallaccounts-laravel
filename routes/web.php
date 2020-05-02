@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('nominal-accounts/trial-balance', 'NominalAccountsController@trialBalance')->name('nominal-accounts.trial-balance');
 Route::resource('nominal-accounts', 'NominalAccountsController');
 
 Auth::routes();

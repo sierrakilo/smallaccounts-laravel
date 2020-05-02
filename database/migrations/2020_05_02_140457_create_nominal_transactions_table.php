@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNominalAccountsTable extends Migration
+class CreateNominalTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateNominalAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('nominal_accounts', function (Blueprint $table) {
+        Schema::create('nominal_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('default')->default('debit');
-            $table->integer('amount')->default(0);
+            $table->integer('amount');
+            $table->integer('debit_nominal_account_id');
+            $table->integer('credit_nominal_account_id');
+            $table->date('accounted_at');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateNominalAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nominal_accounts');
+        Schema::dropIfExists('nominal_transactions');
     }
 }

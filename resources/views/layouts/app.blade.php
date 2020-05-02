@@ -76,7 +76,6 @@
             @yield('content')
         </main>
 
-        <example-component></example-component>
     </div>
 </body>
 </html>
