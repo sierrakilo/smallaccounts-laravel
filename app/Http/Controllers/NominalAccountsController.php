@@ -7,8 +7,12 @@ use App\Models\NominalTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use App\Traits\NominalTrait;
+
 class NominalAccountsController extends Controller
 {
+    use NominalTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -89,59 +93,28 @@ class NominalAccountsController extends Controller
         //
     }
 
+    /**
+     * trialBalance
+     */
     public function trialBalance()
     {
-        $nominalAccounts = NominalAccount::all();
+        list($nominalAccounts, $sumDebit, $sumCredit) = $this->nominalTrialBalance();
 
-        $nominalTransactions = NominalTransaction::all();
-
-        foreach($nominalTransactions as $keyT => $nominalTransaction) {
-            foreach($nominalAccounts as $keyA => $nominalAccount) {
-
-                if($nominalTransaction->debit_nominal_account_id == $nominalAccount->id) {
-                    
-                    if($nominalAccount->default == 'debit') {
-                        $nominalAccounts[$keyA]->amount += $nominalTransaction->amount;
-                    } else {
-                        $nominalAccounts[$keyA]->amount -= $nominalTransaction->amount;
-                    }
-                }
-
-                if($nominalTransaction->credit_nominal_account_id == $nominalAccount->id) {
-                    if($nominalAccount->default == 'credit') {
-                        $nominalAccounts[$keyA]->amount += $nominalTransaction->amount;
-                    } else {
-                        $nominalAccounts[$keyA]->amount -= $nominalTransaction->amount;
-                    }
-                }
-
-            }
-        }
-
-
-
-        // $collection = collect([1, 2, 3, 4]);
-
-        $debit = $nominalAccounts->filter(function ($value, $key) {
-            return $value['default'] == 'debit';
-        });
-        $sumDebit = $debit->sum('amount');
-
-        $credit = $nominalAccounts->filter(function ($value, $key) {
-            return $value['default'] == 'credit';
-        });
-        $sumCredit = $credit->sum('amount');
-
-
-
-
-        // $sumDebit = $nominalAccounts->sum('debit');
-        // $sumCredit = $nominalAccounts->sum('credit');
-
-        return view('nominal_accounts/trial_balance', [
+        return view('nominal_accounts.trial_balance', [
             'nominalAccounts' => $nominalAccounts,
             'sumDebit' => $sumDebit,
             'sumCredit' => $sumCredit
+        ]);
+    }
+
+    public function activity(NominalAccount $nominalAccount)
+    {
+        list ($balance, $transactions) = $this->accountActivity($nominalAccount);
+
+        return view('nominal_accounts.activity', [
+            'nominalAccount' => $nominalAccount,
+            'balance' => $balance,
+            'transactions' => $transactions
         ]);
     }
 }

@@ -15,4 +15,14 @@ class NominalTransaction extends Model
     {
         $this->attributes['amount'] = $value * 100;
     }
+
+    public function debit_nominal_account()
+    {
+        return $this->belongsTo(NominalAccount::class, 'debit_nominal_account_id');
+    }
+
+    public function credit_nominal_account()
+    {
+        return $this->belongsTo(NominalAccount::class, 'credit_nominal_account_id');
+    }
 }

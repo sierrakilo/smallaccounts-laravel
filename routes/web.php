@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('nominal-accounts/trial-balance', 'NominalAccountsController@trialBalance')->name('nominal-accounts.trial-balance');
+Route::get('nominal-accounts/{nominal_account}/activity', 'NominalAccountsController@activity')->name('nominal-accounts.activity');
 Route::resource('nominal-accounts', 'NominalAccountsController');
 
 Auth::routes();

@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use App\Models\NominalAccount;
+use App\Models\NominalHeader;
 use App\Models\NominalTransaction;
 
 class DatabaseSeeder extends Seeder
@@ -37,24 +38,47 @@ class DatabaseSeeder extends Seeder
             'default' => 'credit'
         ]);
 
+        $nominalHeader = NominalHeader::create([
+            'accounted_at' => now(),
+        ]);
         NominalTransaction::create([
+            'nominal_header_id' => $nominalHeader->id,
             'accounted_at' => now(),
             'amount' => 120,
             'debit_nominal_account_id' => $bank->id,
             'credit_nominal_account_id' => $sales->id,
         ]);
-
         NominalTransaction::create([
+            'nominal_header_id' => $nominalHeader->id,
             'accounted_at' => now(),
             'amount' => 20,
             'debit_nominal_account_id' => $sales->id,
             'credit_nominal_account_id' => $vat->id,
         ]);
-        NominalTransaction::create([
+
+
+        $nominalHeader2 = NominalHeader::create([
             'accounted_at' => now(),
-            'amount' => 200,
-            'debit_nominal_account_id' => $rent->id,
-            'credit_nominal_account_id' => $bank->id,
         ]);
+        NominalTransaction::create([
+            'nominal_header_id' => $nominalHeader2->id,
+            'accounted_at' => now(),
+            'amount' => 360,
+            'debit_nominal_account_id' => $bank->id,
+            'credit_nominal_account_id' => $sales->id,
+        ]);
+        NominalTransaction::create([
+            'nominal_header_id' => $nominalHeader2->id,
+            'accounted_at' => now(),
+            'amount' => 60,
+            'debit_nominal_account_id' => $sales->id,
+            'credit_nominal_account_id' => $vat->id,
+        ]);
+        // NominalTransaction::create([
+        //     'accounted_at' => now(),
+        //     'amount' => 200,
+        //     'debit_nominal_account_id' => $rent->id,
+        //     'credit_nominal_account_id' => $bank->id,
+        // ]);
     }
 }

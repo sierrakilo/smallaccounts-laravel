@@ -16,4 +16,14 @@ class NominalAccount extends Model
         $this->attributes['amount'] = $value * 100;
     }
 
+    public function debit_nominal_transactions()
+    {
+        return $this->hasMany(NominalTransaction::class, 'debit_nominal_account_id');
+    }
+
+    public function credit_nominal_transactions()
+    {
+        return $this->hasMany(NominalTransaction::class, 'credit_nominal_account_id');
+    }
+
 }

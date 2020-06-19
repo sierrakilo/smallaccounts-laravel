@@ -10,7 +10,9 @@
     </div>
     @foreach($nominalAccounts as $nominalAccount)
     <div class="flex flex-row">
-        <div class="flex-grow p-4">{{ $nominalAccount->name }}</div>
+        <div class="flex-grow p-4">
+            <a href="{{ route('nominal-accounts.activity', $nominalAccount->id) }}">{{ $nominalAccount->name }}</a>
+        </div>
         @if($nominalAccount->default == 'credit')
         <div class="flex-none p-4 w-32 text-right">&nbsp;</div>
         @endif
