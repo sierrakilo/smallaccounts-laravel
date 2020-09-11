@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NominalAccountsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('nominal-accounts/trial-balance', 'NominalAccountsController@trialBalance')->name('nominal-accounts.trial-balance');
-Route::get('nominal-accounts/{nominal_account}/activity', 'NominalAccountsController@activity')->name('nominal-accounts.activity');
-Route::resource('nominal-accounts', 'NominalAccountsController');
+Route::get('nominal-accounts/trial-balance', [NominalAccountsController::class, 'trialBalance'])->name('nominal-accounts.trial-balance');
+Route::get('nominal-accounts/{nominal_account}/activity', [NominalAccountsController::class, 'activity'])->name('nominal-accounts.activity');
+Route::resource('nominal-accounts', NominalAccountsController::class);
 
 Auth::routes();
 
